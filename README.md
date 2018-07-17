@@ -1,0 +1,3 @@
+# scaffold-software
+
+Side projects.
