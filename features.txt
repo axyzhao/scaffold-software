@@ -1,0 +1,35 @@
+SHELFPOINT FEATURES
+
+Order placement
+- Database of vendors
+- Automated schedule for ordering
+
+Cost tracking, such as labor costs and food costs
+- Database for labor, food, equipment costs
+- Segmentation into different groups
+- Allow entries and model of costs over time
+
+Labor management, including shift scheduling and clocking in and out
+
+Transaction system that accepts payments, works with integrated credit card processors, and provides receipts
+
+Inventory management, including purchase orders, vendor relations management, ingredient tracking, and low-ingredient notifications
+
+Sales reporting, including multilocation reporting
+- How often are people buying, where are they buying
+
+Payment, product, and activity reports
+- Payment options
+- Which products are being bought
+- How frequently are items bought and at what times
+
+Menu customization
+- Most popular items
+- Which items are being bought in conjunction
+
+Access levels, so restaurant owners can make changes in the system that other employees cannot
+Reporting on details like transactions and kitchen change logs
+Cross-establishment communication, including front of house to back of house and vice versa
+Online ordering and delivery
+Commerce platform for the selling and tracking of items such as merchandise
+Customer loyalty resources and gift card management
