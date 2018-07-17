@@ -28,8 +28,18 @@ Menu customization
 - Which items are being bought in conjunction
 
 Access levels, so restaurant owners can make changes in the system that other employees cannot
+- User/admin roles defined
+
 Reporting on details like transactions and kitchen change logs
+- Changes to PP&E in a centralized database
+
 Cross-establishment communication, including front of house to back of house and vice versa
+- Email directory
+
 Online ordering and delivery
+- Integrating with their online system to gather data
+- Tracking location data of orders, frequency of menu items, how large groups are, delivery locations
+
+
 Commerce platform for the selling and tracking of items such as merchandise
 Customer loyalty resources and gift card management
