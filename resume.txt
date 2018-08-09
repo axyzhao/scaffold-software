@@ -15,7 +15,7 @@ Software Engineering Intern
 •	Pair program daily with team of four engineers for 12 weeks on Cloud Foundry, an open source multi-cloud platform-as-a-service.
 •	Update & integrate command line interface written in Golang to support new Cloud Controller API.
 •	Develop continuous integration pipelines to enable agile, rapid deployment at scale for component teams.
-•	Release new command line interface version (v 6.37.0) for general deployment with over a million downloads.
+•	Release two new command line interface versions (v 6.37.0 & 6.38.0) for general deployment with over a million downloads.
 •	Experience in distributed systems architecture, test-driven development, and continuous deployment to cloud services 
         such as AWS and GCP.
 
