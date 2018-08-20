@@ -10,7 +10,7 @@ La Canada High School, La Canada, CA	2013-2017
 Valedictorian | GPA: 4.88 | SAT: 2380 (Math – 780, Critical Reading – 800, Writing – 800)
 
 EXPERIENCE
-Pivotal Software, San Francisco, CA	 May 2018 – present
+Pivotal Software, San Francisco, CA	 May 2018 – August 2018
 Software Engineering Intern
 •	Pair program daily with team of four engineers for 12 weeks on Cloud Foundry, an open source multi-cloud platform-as-a-service.
 •	Update & integrate command line interface written in Golang to support new Cloud Controller API.
