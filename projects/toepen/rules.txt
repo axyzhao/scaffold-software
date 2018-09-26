@@ -1,0 +1,39 @@
+Players and cards
+Toepen is a fast trick-taking game for three to eight players. It is played with a 32-card pack, with the cards in each suit ranking 10 (highest), 9, 8, 7, A, K, Q, J (lowest). The basic object of each hand is to win the last trick.
+
+Deal
+The cards are dealt clockwise so that each player receives four cards.
+
+After the deal, the undealt portion of the pack is left face-down in the middle of the table. Then any player whose hand consists entirely of As, Ks, Qs, and Js may discard her hand face downward and deal herself a new one. Indeed, any player may discard her hand face downward and deal herself a new one, but there is a risk. When a hand has been discarded in this way, it may be challenged by any other player, by turning it face upwards: if it is found to contain a 10,9,8 or 7 the discarder loses one life (but keeps her new hand) while if it really consists entirely of As,Ks,Qs and Js the challenger loses one life. Once all the cards in the pack have been dealt, it is impossible for any more hands to be dealt.
+
+Play of the cards
+The player on dealer's left leads to the first trick. Players must follow suit if possible, otherwise they may play any card. A trick is won by the highest card of the suit led. The winner of a trick leads to the next trick.
+
+The winner of the fourth and last trick will deal the next hand. Each of the other players loses a life or lives as described below.
+
+Knocking
+At any time during a hand, once all the players have had an opportunity to pick up their cards, a player may knock by rapping the table sharply. This increases the value of the hand by one life. When a player knocks, the other players may stay in, risking losing this extra life; or may fold, losing the current stake and taking no further part in the hand.
+
+The last player to knock may not knock again on the same hand, until someone else has knocked.
+
+Those who stay in to the end of the hand lose one more life than the total number of knocks. So for example if there are no knocks, everyone except the winner of the last trick loses one life; if there was one knock everyone who stayed in, except for the winner of the last trick, loses two lives, and so on.
+
+Those who fold on the first knock immediately lose one life; those who fold on the second knock lose two lives and so on - that is, by folding you lose the same amount you would have lost if the game had gone to the end with no further knocks and you lost the last trick.
+
+If a player knocks and everyone else folds, the player left in wins that hand (losing no life) and deals the next.
+
+If the winner of a trick folds after playing the winning card to the trick, but before the following trick has begun, the turn to lead to the next trick passes to the next player to the left who has not yet folded.
+
+If the winner of the last trick folds, everyone will lose lives: the winner of the last trick will lose because she folded and all the others still playing will lose because they did not win the last trick. (Example: on the last trick, with no previous knocks, A leads the diamond7. C knocks and A folds, believing C has a high diamond, but then B plays the heart9 and C plays the heart10. A loses one life for folding and B and C each lose two lives for staying in and not winning the last trick.)
+
+A player may not knock and fold on her own knock.
+
+Procedure for Knocking and Folding
+There are two ways to organise this.
+
+In serious games, including tournament games and games played for money, when a player knocks (raises), the game is paused and the other players in turn, starting to the left of the one who knocked, must announce whether they are staying in or folding. Those who fold discard their cards face down.
+There is a faster, drinking version of the game in which after a knock, any player who wishes to fold must immediately discard her cards face down on the table. The players effectively decide simultaneously on their response. It often happens that someone will knock during the last trick, after some players have already played their last card. A player who wishes to fold but has no cards left in her hand (having already played to the last trick) does so by calling out "fold" immediately. A player who hesitates has stayed in: it is too late for her to fold.
+Endgame
+When a player has lost ten lives, the game ends and this player is the loser. In the drinking game, the loser buys a round of drinks, the score is wiped clean and the next rubber starts. (In practice, this will cause drinks to arrive at an excessive rate. It might be more realistic if the loser just puts a dollar in the drinks kitty).
+
+A player who has already lost nine lives is not allowed to knock. Similarly, a player who has already lost eight lives cannot make the second knock, one who has already lost seven lives cannot make the third knock, etc.
