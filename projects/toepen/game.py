@@ -30,6 +30,7 @@ class Game:
             p = self.players.append(Player("Player " + str(i)))
         for p in self.players:
             p.setGame(self)
+        self.leadPlayer = self.players[0]
 
     # def setCPUs(self, number):
     #     self.numCPUs = int(number)
@@ -48,64 +49,102 @@ class Game:
     #         p.setGame(self)
 
     def displayRules(self):
-        print("rules")
+        print("Players and cards\n"
+        "Toepen is a fast trick-taking game for three to eight players. It is played with a 32-card pack, with the cards in each suit ranking 10 (highest), 9, 8, 7, A, K, Q, J (lowest).\n"
+        "The basic object of each hand is to win the last trick.\n\n"
+        "Deal\n"
+        "The cards are dealt clockwise so that each player receives four cards.\n After the deal, the undealt portion of the pack is left face-down in the middle of the table.\n"
+        "Then any player whose hand consists entirely of As, Ks, Qs, and Js may discard her hand face downward and deal herself a new one (called a mulligan).\n"
+        "Indeed, any player may discard her hand face downward and deal herself a new one, but there is a risk. \n"
+        "When a hand has been discarded in this way, it may be challenged by any other player, by turning it face upwards:\n"
+        "if it is found to contain a 10,9,8 or 7 the discarder loses one life (but keeps her new hand) while if it really consists \n"
+        "entirely of As,Ks,Qs and Js the challenger loses one life.\n\n"
+
+        "Play of the cards\n"
+        "The player on dealer's left leads to the first trick. Players must follow suit if possible, otherwise they may play any card.\n"
+        "A trick is won by the highest card of the suit led. The winner of a trick leads to the next trick.\n\n"
+
+        "Knocking\n"
+        "At any time during a hand, once all the players have had an opportunity to pick up their cards, a player may increase the penalty by calling a toep. \n"
+        "This increases the value of the hand by one life. When a player knocks, the other players may stay in, risking losing this extra life; or may fold, losing \n"
+        "the current stake and taking no further part in the hand.\n"
+
+        "The last player to knock may not knock again on the same hand, until someone else has knocked.\n"
+
+        "Those who stay in to the end of the hand lose one more life than the total number of knocks. So for example if there are no knocks, everyone except\n"
+        "the winner of the last trick loses one life; if there was one knock everyone who stayed in, except for the winner of the last trick, loses two lives, and so on.\n"
+
+        "Those who fold on the first knock immediately lose one life; those who fold on the second knock lose two lives and so on - that is, by folding you\n"
+        "lose the same amount you would have lost if the game had gone to the end with no further knocks and you lost the last trick.\n"
+
+        "If a player knocks and everyone else folds, the player left in wins that hand (losing no life) and deals the next.\n"
+
+        "If the winner of a trick folds after playing the winning card to the trick, but before the following trick has begun, the turn to lead to\n"
+        "the next trick passes to the next player to the left who has not yet folded.\n"
+
+        "A player may not knock and fold on her own knock.\n")
 
     def startGame(self):
         startChoice = input("OPENING GAME SCREEN\n\n\n\n start (S), rules (R), quit (Q): ")
-        if (startChoice == 's' or startChoice == 'S'):
-    #start choice means what they pick at the beginning screen
-            # mode = input("Multiplayer/single player? (M/S): ")
-            # if (mode == 'm' or mode == 'M'):
-            #     self.playMode = True
-            #
-            # if self.playMode:
-            #     print("You have selected multiplayer mode.\n")
-            #
-            # else:
-            #     print("You have selected single player mode. \n")
 
-            # if self.isMultiplayer():
-            while(True):
-                isInt = True
-                numPlayers = input("How many people are playing? (Maximum is 8) \n")
-                try:
-                   val = int(numPlayers)
-                except ValueError:
-                   isInt = False
-                   print("Input must be a positive integer!")
+        while True:
+            if (startChoice == 's' or startChoice == 'S'):
+        #start choice means what they pick at the beginning screen
+                # mode = input("Multiplayer/single player? (M/S): ")
+                # if (mode == 'm' or mode == 'M'):
+                #     self.playMode = True
+                #
+                # if self.playMode:
+                #     print("You have selected multiplayer mode.\n")
+                #
+                # else:
+                #     print("You have selected single player mode. \n")
 
-                if isInt:
-                    self.setPlayers(numPlayers)
-                    break
-            # else:
-            #     self.setPlayers(1)
-            #
-            # if self.numPlayers <= 8:
-            #     numCPUs = input("Okay, great. How many CPUs would you like? Maximum total players is 8, including you. \n")
-            #
-            #     isInt = True
-            #     try:
-            #        val = int(numCPUs)
-            #     except ValueError:
-            #        print("Input must be a positive integer!")
-            #        isInt = False
-            #
-            #     if isInt:
-            #         self.setCPUs(numCPUs)
-            #
-            go = input("Fantastic! Let's get started. Press any key to continue.\n")
+                # if self.isMultiplayer():
+                while(True):
+                    isInt = True
+                    numPlayers = input("How many people are playing? (Maximum is 8) \n")
+                    try:
+                       val = int(numPlayers)
+                    except ValueError:
+                       isInt = False
+                       print("Input must be a positive integer!")
 
-            if go:
-                print("*********************************************************************************************************")
-                self.play()
+                    if isInt:
+                        self.setPlayers(numPlayers)
+                        break
+                # else:
+                #     self.setPlayers(1)
+                #
+                # if self.numPlayers <= 8:
+                #     numCPUs = input("Okay, great. How many CPUs would you like? Maximum total players is 8, including you. \n")
+                #
+                #     isInt = True
+                #     try:
+                #        val = int(numCPUs)
+                #     except ValueError:
+                #        print("Input must be a positive integer!")
+                #        isInt = False
+                #
+                #     if isInt:
+                #         self.setCPUs(numCPUs)
+                #
+                go = input("Fantastic! Let's get started. Press any key to continue.\n")
 
-#rules option
-        elif (startChoice == 'r' or startChoice == 'R'):
-            self.displayRules()
+                if go:
+                    print("*********************************************************************************************************")
+                    self.play()
+                break
 
-    #quitting the game
-        elif (startChoice == 'q' or startChoice == 'Q'):
-            self.quit()
+    #rules option
+            elif (startChoice == 'r' or startChoice == 'R'):
+                self.displayRules()
+                startChoice = input("OPENING GAME SCREEN\n\n\n\n start (S), rules (R), quit (Q): ")
+
+        #quitting the game
+            elif (startChoice == 'q' or startChoice == 'Q'):
+                self.quit()
+                break
 
     def quit(self):
         print("you have left the game :(")
@@ -126,10 +165,10 @@ class Game:
 
     def playTrick(self):
         startingPlayer = self.playRound(0)
-        result = 1
 
-        while result != None:
-            result = self.playRound(startingPlayer)
+        while startingPlayer >= 0:
+            startingPlayer = self.playRound(startingPlayer)
+            self.leadPlayer = self.players[startingPlayer]
 
         if startingPlayer == -1:
             return
@@ -146,18 +185,20 @@ class Game:
                 res = self.takeTurn(self.players[i % len(self.players)])
                 if res == -1:
                     winner = p
-                    counter = counter + 1
-
-        if counter == 4:
-            print("Round over. The winner is " + winner.name)
-            return -2
+                    print("Round over. The winner is " + winner.name)
+                    return -2
 
         maxVal = -1 * pow(10, 10)
+        #store max card value from cards in the current pile
+
         maxName = ""
         for tup in self.currentStack:
+            #card value
             tupVal = tup[1].value
+
             ranking = self.deck.values.index(tupVal)
-            if maxVal != max(maxVal, ranking):
+
+            if maxVal != max(maxVal, ranking) and tup[1].color == self.suit:
                 maxVal = ranking
                 maxName = tup[0]
 
@@ -166,6 +207,9 @@ class Game:
         self.deck.reshuffle()
 
         raw_name = maxName.split(' ')
+
+        leadPlayer = self.players[int(raw_name[1])]
+        self.leadPlayer = leadPlayer
 
         #TODO: need to return max player
         # Everyone else has lost " + str(self.toep) + " lives.")
@@ -198,14 +242,14 @@ class Game:
         player.displayCards()
 
         #what would you like to do? fold, toep, checkscore, play which cards?
-        action = input("What do you want to do?\nMulligan (M), fold (F), toep (T), check game stats (C), play a card (P)\n")
+        action = input("What do you want to do?\nMulligan (M), fold (F), toep (T), check game stats (C), play a card (P), review rules (R)\n")
         action = action.lower()
 
         mulliganFlag = False
         toepFlag = False
 
         while(True):
-            if action == 'm' or action == 'M':
+            if action == 'm':
                 if mulliganFlag == False:
                     mulliganFlag = True
                     print("\n")
@@ -214,10 +258,10 @@ class Game:
                 else:
                     print("You have already mulligan'd this round.")
 
-                action = input("What do you want to do?\nFold (F), toep (T), check game stats (C), play a card (P)\n")
+                action = input("What do you want to do?\nFold (F), toep (T), check game stats (C), play a card (P), review rules (R)\n")
                 action = action.lower()
 
-            elif action == 't' or action == 'T':
+            elif action == 't':
                 if toepFlag == False:
                     toepFlag = True
                     print("\n")
@@ -225,31 +269,36 @@ class Game:
                     print("\n")
                 else:
                     print("You have already toeped this round.\n")
-                action = input("What do you want to do?\nMulligan (M), fold (F), check game stats (C), play a card (P)\n")
+                action = input("What do you want to do?\nMulligan (M), fold (F), check game stats (C), play a card (P), review rules (R)\n")
                 action = action.lower()
-            elif action == 'c' or action == 'C':
+            elif action == 'c':
                 print("\n")
                 player.checkGameStats()
                 print("\n")
-                action = input("What do you want to do?\nMulligan (M), fold (F), toep (T), check game stats (C), play a card (P)\n")
+                action = input("What do you want to do?\nMulligan (M), fold (F), toep (T), check game stats (C), play a card (P), review rules (R)\n")
                 action = action.lower()
-            elif action == 'f' or action == 'F':
+            elif action == 'f':
                 print("\n")
                 player.fold()
                 return
                 print("\n")
-            elif action == 'p' or action == 'P':
+            elif action == 'p':
                 print("\n")
                 return player.playCard(self.suit)
+            elif action == 'r':
+                print("\n")
+                player.reviewRules()
+                action = input("What do you want to do?\nMulligan (M), fold (F), toep (T), check game stats (C), play a card (P), review rules (R)\n")
+                action == action.ower()
             else:
                 print("You selected an invalid option.\n")
-                action = input("What do you want to do?\nMulligan (M), fold (F), toep (T), check game stats (C), play a card (P)\n")
+                action = input("What do you want to do?\nMulligan (M), fold (F), toep (T), check game stats (C), play a card (P), review rules (R)\n")
                 action = action.lower()
 
 class Deck:
     def __init__(self):
         self.suits = ['spades', 'hearts', 'diamonds', 'clubs']
-        self.values = ['7', '8', '9', '10', 'J', 'Q', 'K', 'A']
+        self.values = ['J', 'Q', 'K', 'A', '7', '8', '9', '10']
         self.cards = [Card(value, color) for value in self.values for color in self.suits]
 
     def shuffle(self):
@@ -400,7 +449,7 @@ class Player:
                 if c.color == suit:
                     hasSuit = True
 
-            if hasSuit and card.color != suit and len(suit) > 0:
+            if self.game.leadPlayer.name != self.name and hasSuit and card.color != suit and len(suit) > 0:
                 print("The card chosen is not of the required suit! If you have the current round's suit, you must play that card.")
                 choice = input("Which card would you like to play? If you have the suit " + suit + ", you must play a card of that suit. Otherwise, you can play a different card.\nDenote the card you would like to play by typing J, hearts. Ex: Q, spades\n")
 
@@ -427,7 +476,8 @@ class Player:
             return -1
 
 #TODO: only one that sets game suit is the first player
-        self.game.suit = raw_card[1]
+        if self.game.leadPlayer.name == self.name:
+            self.game.suit = raw_card[1]
 
 class Card:
     def __init__(self, value, color):
