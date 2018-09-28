@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import sys
+from os import system
 import random
 
 class Game:
@@ -164,7 +165,10 @@ class Game:
         for p in self.players:
             p.setCards(self.deck.deal())
 
-        self.playTrick()
+        result = 0
+
+        while result != -1:
+            result = self.playTrick()
 
         print("")
 
@@ -186,17 +190,19 @@ class Game:
         for i in range(startingPlayer, startingPlayer + len(self.players)):
             p = self.players[i % len(self.players)]
 
+            while True and i < startingPlayer + len(self.players) - 1:
+                go = input("It is now " + p.name + "'s turn. Press any key to start. Everyone else: No peeking!\n")
+                if go:
+                    break
+
             if (p.inGame):
                 res = self.takeTurn(self.players[i % len(self.players)])
                 if res == -1:
                     winner = p
-                    print("Round over. The winner is " + winner.name)
+                    print("Round over. The winner is " + winner.name + "!\n")
+                    print("Starting the next round...")
                     return -2
 
-            while True:
-                go = input("TURN OVER. Press any key to start " + p.name + "'s turn. No peeking!\n")
-                if go:
-                    break
 
 
         maxVal = -1 * pow(10, 10)
@@ -245,6 +251,7 @@ class Game:
         #go around each player -- if real player, display options. If not, do AI stuff
         #display previous players
 
+        system('clear')
         print("*********************************************************************************************************")
         print("Hey, " + player.name + "! It's your turn!\n")
         player.displayCards()
@@ -387,6 +394,12 @@ class Player:
         for p in self.game.players:
             if p.name != self.name:
                 print("A challenger approaches...\n")
+                while True:
+                    go = input("Pass the console to " + p.name + " and press any key.\n")
+                    if go:
+                        system('clear')
+                        break
+
                 print("Hello, " + p.name)
                 callout = input(self.name + " has chosen to mulligan. Do you challenge their choice? (y/n)\n")
                 callout.lower()
@@ -474,6 +487,8 @@ class Player:
                         print("This card is not in your hand! Please specify a card in your hand.")
                         choice = input("Which card would you like to play? If you have the suit " + suit + ", you must play a card of that suit. Otherwise, you can play a different card.\nDenote the card you would like to play by typing J, hearts. Ex: Q, spades")
                         raw_card = [x.strip() for x in choice.split(',')]
+            else:
+                break
 
         self.cards.remove(card)
         print("You have removed " + str(card.value) + ", " + str(card.color) + " from your hand.")
