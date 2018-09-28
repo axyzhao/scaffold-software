@@ -1,3 +1,4 @@
-#!/usr/bin/env python
+#!/bin/sh
 
-python ./deck.py
+chmod +x game.py
+python game.py
