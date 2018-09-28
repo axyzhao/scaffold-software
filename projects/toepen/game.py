@@ -122,34 +122,16 @@ class Game:
         print("")
 
     def playTrick(self):
-        for p in self.players:
-            if p.inGame:
-                self.takeTurn(p)
-
-        print("Round over. Putting discarded cards back into deck...\n")
-
-        maxVal = ""
-        for tup in self.currentStack:
-            tupVal = tup[1].value
-            ranking = self.deck.values.index(tupVal)
-            if maxVal != max(maxVal, ranking):
-                maxVal = ranking
-                maxName = tup[0]
-
-        print("The winner is..." + maxName + "! They get to start the next round off.")
-        # Everyone else has lost " + str(self.toep) + " lives.")
-
-        for p in self.players:
-            if p.inGame:
-                p.lives = p.lives - self.toep
-            if p.lives <= 0:
-                print(p.name + " has lost! The game is over.")
-
-        self.deck.reshuffle()
+        startingPlayer = self.playRound(0)
+        while startingPlayer >= 0:
+            self.playRound(startingPlayer)
 
     def playRound(self, startingPlayer):
         for i in range(startingPlayer, startingPlayer + len(self.players)):
-            self.takeTurn(self.players[i % len(self.players)])
+            p = self.players[i % len(self.players)]
+
+            if (p.inGame):
+                self.takeTurn(self.players[i % len(self.players)])
 
         maxVal = -1 * pow(10, 10)
         maxName = 0
@@ -161,6 +143,10 @@ class Game:
                 maxName = tup[0]
 
         print("The winner is..." + maxName + "! They get to start the next round off.")
+        print("Round over. Putting discarded cards back into deck...\n")
+        self.deck.reshuffle()
+
+        #TODO: need to return max player
         # Everyone else has lost " + str(self.toep) + " lives.")
 
         for p in self.players:
@@ -168,8 +154,7 @@ class Game:
                 p.lives = p.lives - self.toep
             if p.lives <= 0:
                 print(p.name + " has lost! The game is over.")
-
-        self.deck.reshuffle()
+                return -1
 
     def takeTurn(self, player):
         #check if anyone has 0 lives
@@ -180,7 +165,6 @@ class Game:
         print("Hey, " + player.name + "! It's your turn!\n")
         player.displayCards()
 
-        flag = True
         #what would you like to do? fold, toep, checkscore, play which cards?
         action = input("What do you want to do?\nMulligan (M), fold (F), toep (T), check game stats (C), play a card (P)\n")
         action = action.lower()
@@ -188,8 +172,7 @@ class Game:
         mulliganFlag = False
         toepFlag = False
 
-        while(flag or (action != 'm' and action != 'f' and action != 'p')):
-            flag = False
+        while(True):
             if action == 'm' or action == 'M':
                 if mulliganFlag == False:
                     mulliganFlag = True
@@ -198,7 +181,11 @@ class Game:
                     print("\n")
                 else:
                     print("You have already mulligan'd this round.")
-            if action == 't' or action == 'T':
+
+                action = input("What do you want to do?\nFold (F), toep (T), check game stats (C), play a card (P)\n")
+                action = action.lower()
+
+            elif action == 't' or action == 'T':
                 if toepFlag == False:
                     toepFlag = True
                     print("\n")
@@ -206,8 +193,7 @@ class Game:
                     print("\n")
                 else:
                     print("You have already toeped this round.\n")
-
-                action = input("What do you want to do?\n Fold (F), toep (T), check game stats (C), play a card (P)\n")
+                action = input("What do you want to do?\nMulligan (M), fold (F), check game stats (C), play a card (P)\n")
                 action = action.lower()
             elif action == 'c' or action == 'C':
                 print("\n")
@@ -218,10 +204,16 @@ class Game:
             elif action == 'f' or action == 'F':
                 print("\n")
                 player.fold()
+                return
                 print("\n")
             elif action == 'p' or action == 'P':
                 print("\n")
                 player.playCard(self.suit)
+                return
+            else:
+                print("You selected an invalid option.\n")
+                action = input("What do you want to do?\nMulligan (M), fold (F), toep (T), check game stats (C), play a card (P)\n")
+                action = action.lower()
 
 class Deck:
     def __init__(self):
@@ -280,18 +272,26 @@ class Player:
                 print(p.name + "'s lives: " + str(p.lives))
 
         self.displayCards()
+        print("The cards played thus far in the round are: ")
+
+        for c in self.game.currentStack:
+            print("(" + str(c[1].value) + ", " + str(c[1].color) + ")", end=" ")
+            print("\n")
+
         print("Current toep: " + str(self.game.toep))
         print("Current suit: " + str(self.game.suit))
 
-    #def mulligan(self):
+    def mulligan(self):
+        print("mulligan!")
+
     def toep(self):
         self.game.increaseToep()
 
     def displayCards(self):
-        print("Your cards: \n")
+        print("Your cards: ")
         for c in self.cards:
             print("(" + str(c.value) + ", " + str(c.color) + ")", end=" ")
-            print("")
+            print("\n")
 
     def lost(self):
         return (self.lives == 0)
@@ -306,6 +306,11 @@ class Player:
         choice = input("Which card would you like to play? If you have the suit " + suit + ", you must play a card of that suit. Otherwise, you can play a different card.\nDenote the card you would like to play by typing J, hearts. Ex: Q, spades\n")
 
         raw_card = [x.strip() for x in choice.split(',')]
+
+        while len(raw_card) < 2:
+            print("This is not a valid card! Please specify a card in your hand.")
+            choice = input("Which card would you like to play? If you have the suit " + suit + ", you must play a card of that suit. Otherwise, you can play a different card.\nDenote the card you would like to play by typing J, hearts. Ex: Q, spades\n")
+            raw_card = [x.strip() for x in choice.split(',')]
 
         hasCard = False
 
@@ -354,8 +359,6 @@ class Player:
 
 #TODO: only one that sets game suit is the first player
         self.game.suit = raw_card[1]
-
-    #def discard
 
 class Card:
     def __init__(self, value, color):
