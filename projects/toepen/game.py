@@ -32,23 +32,21 @@ class Game:
             p.setGame(self)
         self.leadPlayer = self.players[0]
 
-    # def setCPUs(self, number):
-    #     self.numCPUs = int(number)
-    #     if self.numPlayers == 1 and self.numCPUs == 0:
-    #         self.numCPUs = 2
-    #         print("You can't play by yourself! We've made you two computer friends to play with you.")
-    #
-    #     if (self.numCPUs + self.numPlayers) > 8:
-    #         self.numCPUs = 8 - self.numPlayers
-    #         print("Maximum number of players exceeded! The number of CPUs has been set to: ", self.numCPUs)
-    #
-    #     for i in range(self.numCPUs):
-    #         self.players.append(Player("CPU " + str(i), True))
-    #
-    #     for p in self.players:
-    #         p.setGame(self)
-
     def displayRules(self):
+        print("\n**************************************************************************************\n")
+
+        display = [[] for i in range(2)]
+        display[0].append("|_)     |  _   _ ")
+        display[1].append("| \ |_| | (/_ _> ")
+
+        result = []
+        for index, line in enumerate(display):
+            result.append(''.join(display[index]))
+        result = '\n'.join(result)
+        print(result)
+
+        print("\n")
+        print("RULES\n")
         print("Players and cards\n"
         "Toepen is a fast trick-taking game for three to eight players. It is played with a 32-card pack, with the cards in each suit ranking 10 (highest), 9, 8, 7, A, K, Q, J (lowest).\n"
         "The basic object of each hand is to win the last trick.\n\n"
@@ -85,22 +83,12 @@ class Game:
         "A player may not knock and fold on her own knock.\n")
 
     def startGame(self):
-        startChoice = input("OPENING GAME SCREEN\n\n\n\n start (S), rules (R), quit (Q): ")
+        self.displayStartScreen()
+        startChoice = input("OPTIONS: start (S), rules (R), quit (Q): ")
+        print("**************************************************************************************")
 
         while True:
             if (startChoice == 's' or startChoice == 'S'):
-        #start choice means what they pick at the beginning screen
-                # mode = input("Multiplayer/single player? (M/S): ")
-                # if (mode == 'm' or mode == 'M'):
-                #     self.playMode = True
-                #
-                # if self.playMode:
-                #     print("You have selected multiplayer mode.\n")
-                #
-                # else:
-                #     print("You have selected single player mode. \n")
-
-                # if self.isMultiplayer():
                 while(True):
                     isInt = True
                     numPlayers = input("How many people are playing? (Maximum is 8) \n")
@@ -113,38 +101,50 @@ class Game:
                     if isInt:
                         self.setPlayers(numPlayers)
                         break
-                # else:
-                #     self.setPlayers(1)
-                #
-                # if self.numPlayers <= 8:
-                #     numCPUs = input("Okay, great. How many CPUs would you like? Maximum total players is 8, including you. \n")
-                #
-                #     isInt = True
-                #     try:
-                #        val = int(numCPUs)
-                #     except ValueError:
-                #        print("Input must be a positive integer!")
-                #        isInt = False
-                #
-                #     if isInt:
-                #         self.setCPUs(numCPUs)
-                #
+
                 go = input("Fantastic! Let's get started. Press any key to continue.\n")
 
                 if go:
-                    print("*********************************************************************************************************")
+                    print("*********************************************************************************")
                     self.play()
                 break
 
     #rules option
             elif (startChoice == 'r' or startChoice == 'R'):
                 self.displayRules()
-                startChoice = input("OPENING GAME SCREEN\n\n\n\n start (S), rules (R), quit (Q): ")
+                self.displayStartScreen()
+                startChoice = input("OPTIONS: start (S), rules (R), quit (Q): ")
+                print("**************************************************************************************")
 
         #quitting the game
             elif (startChoice == 'q' or startChoice == 'Q'):
                 self.quit()
                 break
+            else:
+                print("Not a valid input.\n")
+                self.displayStartScreen()
+                startChoice = input("OPTIONS: start (S), rules (R), quit (Q): ")
+                print("**************************************************************************************")
+
+    def displayStartScreen(self):
+        display = [[] for i in range(8)]
+        display[0].append("                  ______")
+        display[1].append("                 /_  __/___  ___  ____  ___  ____ ")
+        display[2].append("                  / / / __ \/ _ \/ __ \/ _ \/ __ \ ")
+        display[3].append("                 / / / /_/ /  __/ /_/ /  __/ / / / ")
+        display[4].append("                /_/  \____/\___/ .___/\___/_/ /_/ ")
+        display[5].append("                              /_/             ")
+        display[6].append("                                                 ")
+        display[7].append("                      A game by Alex Zhao   ")
+
+        result = []
+        for index, line in enumerate(display):
+            result.append(''.join(display[index]))
+        result = '\n'.join(result)
+
+        print("**************************************************************************************")
+        print(result)
+        print("\n")
 
     def quit(self):
         print("you have left the game :(")
@@ -188,6 +188,12 @@ class Game:
                     print("Round over. The winner is " + winner.name)
                     return -2
 
+            while True:
+                go = input("TURN OVER. Press any key to start " + p.name + "'s turn. No peeking!\n")
+                if go:
+                    break
+
+
         maxVal = -1 * pow(10, 10)
         #store max card value from cards in the current pile
 
@@ -210,9 +216,6 @@ class Game:
 
         leadPlayer = self.players[int(raw_name[1])]
         self.leadPlayer = leadPlayer
-
-        #TODO: need to return max player
-        # Everyone else has lost " + str(self.toep) + " lives.")
 
         for p in self.players:
             if p.inGame:
@@ -289,7 +292,7 @@ class Game:
                 print("\n")
                 player.reviewRules()
                 action = input("What do you want to do?\nMulligan (M), fold (F), toep (T), check game stats (C), play a card (P), review rules (R)\n")
-                action == action.ower()
+                action == action.lower()
             else:
                 print("You selected an invalid option.\n")
                 action = input("What do you want to do?\nMulligan (M), fold (F), toep (T), check game stats (C), play a card (P), review rules (R)\n")
@@ -405,8 +408,7 @@ class Player:
     def displayCards(self):
         print("Your cards: ")
         for c in self.cards:
-            print("(" + str(c.value) + ", " + str(c.color) + ")", end=" ")
-            print("\n")
+            c.displayCard()
 
     def lost(self):
         return (self.lives == 0)
@@ -475,7 +477,6 @@ class Player:
         if len(self.cards) == 0:
             return -1
 
-#TODO: only one that sets game suit is the first player
         if self.game.leadPlayer.name == self.name:
             self.game.suit = raw_card[1]
 
@@ -483,6 +484,45 @@ class Card:
     def __init__(self, value, color):
         self.value = value
         self.color = color
+
+    def displayCard(self):
+        """
+        Instead of a boring text version of the card we render an ASCII image of the card.
+        :param return_string: By default we return the string version of the card, but the dealer hide the 1st card and we
+        keep it as a list so that the dealer can add a hidden card in front of the list
+        """
+        # we will use this to prints the appropriate icons for each card
+        suits_name = ['spades', 'diamonds', 'hearts', 'clubs']
+        suits_symbols = ['♠', '♦', '♥', '♣']
+
+        # create an empty list of list, each sublist is a line
+        lines = [[] for i in range(9)]
+
+        if self.value == '10':  # ten is the only one who's rank is 2 char long
+            space = ''  # if we write "10" on the card that line will be 1 char to long
+        else:
+            space = ' '  # no "10", we use a blank space to will the void
+
+        rank = self.value
+        suit = suits_name.index(self.color)
+        suit = suits_symbols[suit]
+
+        # add the individual card on a line by line basis
+        lines[0].append('┌─────────┐')
+        lines[1].append('│{}{}       │'.format(rank, space))  # use two {} one for char, one for space or char
+        lines[2].append('│         │')
+        lines[3].append('│         │')
+        lines[4].append('│    {}    │'.format(suit))
+        lines[5].append('│         │')
+        lines[6].append('│         │')
+        lines[7].append('│       {}{}│'.format(space, rank))
+        lines[8].append('└─────────┘')
+
+        result = []
+        for index, line in enumerate(lines):
+            result.append(''.join(lines[index]))
+        result = '\n'.join(result)
+        print(result)
 
     def returnCard(self):
         return (self.value, self.color)
