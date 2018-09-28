@@ -102,7 +102,10 @@ class Game:
 
     #quitting the game
         elif (startChoice == 'q' or startChoice == 'Q'):
-            quit()
+            self.quit()
+
+    def quit(self):
+        print("you have left the game :(")
 
     def increaseToep(self):
         self.toep = self.toep + 1
@@ -125,7 +128,7 @@ class Game:
 
         print("Round over. Putting discarded cards back into deck...\n")
 
-        maxVal = 0
+        maxVal = ""
         for tup in self.currentStack:
             tupVal = tup[1].value
             ranking = self.deck.values.index(tupVal)
@@ -177,28 +180,48 @@ class Game:
         print("Hey, " + player.name + "! It's your turn!\n")
         player.displayCards()
 
-
+        flag = True
         #what would you like to do? fold, toep, checkscore, play which cards?
         action = input("What do you want to do?\nMulligan (M), fold (F), toep (T), check game stats (C), play a card (P)\n")
-        if action == 'm' or action == 'M':
-            print("\n")
-            player.mulligan()
-            print("\n")
-        if action == 't' or action == 'T':
-            print("\n")
-            player.toep()
-            print("\n")
-        elif action == 'c' or action == 'C':
-            print("\n")
-            player.checkGameStats()
-            print("\n")
-        elif action == 'f' or action == 'F':
-            print("\n")
-            player.fold()
-            print("\n")
-        elif action == 'p' or action == 'P':
-            print("\n")
-            player.playCard(self.suit)
+        action = action.lower()
+
+        mulliganFlag = False
+        toepFlag = False
+
+        while(flag or (action != 'm' and action != 'f' and action != 'p')):
+            flag = False
+            if action == 'm' or action == 'M':
+                if mulliganFlag == False:
+                    mulliganFlag = True
+                    print("\n")
+                    player.mulligan()
+                    print("\n")
+                else:
+                    print("You have already mulligan'd this round.")
+            if action == 't' or action == 'T':
+                if toepFlag == False:
+                    toepFlag = True
+                    print("\n")
+                    player.toep()
+                    print("\n")
+                else:
+                    print("You have already toeped this round.\n")
+
+                action = input("What do you want to do?\n Fold (F), toep (T), check game stats (C), play a card (P)\n")
+                action = action.lower()
+            elif action == 'c' or action == 'C':
+                print("\n")
+                player.checkGameStats()
+                print("\n")
+                action = input("What do you want to do?\nMulligan (M), fold (F), toep (T), check game stats (C), play a card (P)\n")
+                action = action.lower()
+            elif action == 'f' or action == 'F':
+                print("\n")
+                player.fold()
+                print("\n")
+            elif action == 'p' or action == 'P':
+                print("\n")
+                player.playCard(self.suit)
 
 class Deck:
     def __init__(self):
@@ -213,7 +236,6 @@ class Deck:
         for i in range(len(self.cards) - 1, 0, -1):
             # Pick a random index from 0 to i
             j = random.randint(0,i)
-
             self.cards[i], self.cards[j] = self.cards[j], self.cards[i]
 
     def reshuffle(self):
@@ -250,6 +272,7 @@ class Player:
         self.cards = cards
 
     def checkGameStats(self):
+        print("********************************GAME INFO******************************")
         print("Your lives: " + str(self.lives))
 
         for p in self.game.players:
@@ -326,7 +349,10 @@ class Player:
                         raw_card = [x.strip() for x in choice.split(',')]
 
         self.cards.remove(card)
+        print("You have removed " + str(card.value) + ", " + str(card.color) + " from your deck.")
         self.game.currentStack.append((self.name, card))
+
+#TODO: only one that sets game suit is the first player
         self.game.suit = raw_card[1]
 
     #def discard
@@ -346,6 +372,4 @@ def main():
 if __name__ == "__main__":
     main()
 
-def quit():
-    print("you have left the game")
 
