@@ -9,14 +9,10 @@ class Game:
     def __init__(self):
         self.players = []
         self.currentStack = []
-        self.playMode = False
         self.deck = Deck()
         self.numPlayers = 8
         self.toep = 1
         self.suit = ""
-
-    def isMultiplayer(self):
-        return self.playMode
 
     def setPlayers(self, number):
         self.numPlayers = int(number)
@@ -107,7 +103,7 @@ class Game:
 
                 if go:
                     print("*********************************************************************************")
-                    self.play()
+                    self.playGame()
                 break
 
     #rules option
@@ -158,7 +154,7 @@ class Game:
     def increaseToep(self):
         self.toep = self.toep + 1
 
-    def play(self):
+    def playGame(self):
         self.deck.shuffle()
         print("Dealing cards...\n")
 
@@ -168,34 +164,44 @@ class Game:
         result = 0
 
         while result != -1:
+            self.currentStack = None
             result = self.playTrick()
-
+            for p in self.players:
+                p.setCards(self.deck.deal())
         print("")
 
     def playTrick(self):
         startingPlayer = self.playRound(0)
 
-        while startingPlayer >= 0:
+        while startingPlayer != -1 and startingPlayer != -2:
             startingPlayer = self.playRound(startingPlayer)
             self.leadPlayer = self.players[startingPlayer]
 
-        if startingPlayer == -1:
-            return
-        elif startingPlayer == -2:
-            return
-
+        return startingPlayer
 
     def playRound(self, startingPlayer):
         counter = 0
+        inGame = 0
+        for p in self.players:
+            if p.inGame == True:
+                onePlayer = p
+                counter = counter + 1
+
+        if counter == 1:
+            print(onePlayer.name + "wins by default since everyone else has folded!")
+            return self.players.index(onePlayer)
+
+        if counter == 0:
+            return -3
+
         for i in range(startingPlayer, startingPlayer + len(self.players)):
             p = self.players[i % len(self.players)]
-
-            while True and i < startingPlayer + len(self.players) - 1:
-                go = input("It is now " + p.name + "'s turn. Press any key to start. Everyone else: No peeking!\n")
-                if go:
-                    break
-
             if (p.inGame):
+                while True and i < (startingPlayer + len(self.players) - 1):
+                    go = input("It is now " + p.name + "'s turn. Press any key to start. Everyone else: No peeking!\n")
+                    if go:
+                        break
+
                 res = self.takeTurn(self.players[i % len(self.players)])
                 if res == -1:
                     winner = p
@@ -204,22 +210,23 @@ class Game:
                     return -2
 
 
+        maxName = self.players[0].name 
 
-        maxVal = -1 * pow(10, 10)
-        #store max card value from cards in the current pile
+        if self.currentStack != None:
+            maxVal = -1 * pow(10, 10)
+            #store max card value from cards in the current pile
+            for tup in self.currentStack:
+                #card value
+                tupVal = tup[1].value
 
-        maxName = ""
-        for tup in self.currentStack:
-            #card value
-            tupVal = tup[1].value
+                ranking = self.deck.values.index(tupVal)
 
-            ranking = self.deck.values.index(tupVal)
+                if maxVal != max(maxVal, ranking) and tup[1].color == self.suit:
+                    maxVal = ranking
+                    maxName = tup[0]
 
-            if maxVal != max(maxVal, ranking) and tup[1].color == self.suit:
-                maxVal = ranking
-                maxName = tup[0]
+            print("The winner of the trick is " + maxName + "! They get to start the next trick off.")
 
-        print("The winner of the trick is " + maxName + "! They get to start the next trick off.")
         print("Putting discarded cards back into deck...\n")
         self.deck.reshuffle()
 
@@ -295,8 +302,8 @@ class Game:
             elif action == 'f':
                 print("\n")
                 player.fold()
-                return
                 print("\n")
+                return 1
             elif action == 'p':
                 print("\n")
                 return player.playCard(self.suit)
@@ -369,9 +376,10 @@ class Player:
         self.displayCards()
         print("The cards played thus far in the round are: ")
 
-        for c in self.game.currentStack:
-            print("(" + str(c[1].value) + ", " + str(c[1].color) + ")", end=" ")
-            print("\n")
+        if self.game.currentStack != None:
+            for c in self.game.currentStack:
+                print("(" + str(c[1].value) + ", " + str(c[1].color) + ")", end=" ")
+                print("\n")
 
         print("Current toep: " + str(self.game.toep))
         print("Current suit: " + str(self.game.suit))
@@ -392,7 +400,7 @@ class Player:
         self.displayCards()
 
         for p in self.game.players:
-            if p.name != self.name:
+            if p.name != self.name and p.inGame:
                 print("A challenger approaches...\n")
                 while True:
                     go = input("Pass the console to " + p.name + " and press any key.\n")
@@ -422,6 +430,26 @@ class Player:
 
     def toep(self):
         self.game.increaseToep()
+        print("You have increased the toep to " + str(self.game.toep) + ".")
+
+        for p in self.game.players:
+            if p.name != self.name and p.inGame:
+                print("Going around the table...\n")
+                while True:
+                    go = input("Pass the console to " + p.name + " and press any key.\n")
+                    if go:
+                        system('clear')
+                        break
+
+                print("Hello, " + p.name)
+                call = input(self.name + " has increased the toep to " + str(self.game.toep) + ". Do you call, or fold? (C/F)\n")
+                call.lower()
+                if call == 'f':
+                    p.fold()
+                    break
+
+        print("Now, returning to " + self.name + "...\n")
+
 
     def displayCards(self):
         print("Your cards: ")
