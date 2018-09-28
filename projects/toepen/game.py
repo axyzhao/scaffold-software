@@ -22,6 +22,9 @@ class Game:
         if self.numPlayers > 8:
             self.numPlayers = 8
             print("Maximum number of players exceeded! The number of players has been set to 8")
+        elif self.numPlayers < 2:
+            self.numPlayers = 2
+            print("You can't play this game by yourself! The number of players has been set to 2")
 
         for i in range(self.numPlayers):
             p = self.players.append(Player("Player " + str(i)))
@@ -62,18 +65,18 @@ class Game:
             #     print("You have selected single player mode. \n")
 
             # if self.isMultiplayer():
-            numPlayers = input("How many people are playing? (Maximum is 8) \n")
+            while(True):
+                isInt = True
+                numPlayers = input("How many people are playing? (Maximum is 8) \n")
+                try:
+                   val = int(numPlayers)
+                except ValueError:
+                   isInt = False
+                   print("Input must be a positive integer!")
 
-            isInt = True
-
-            try:
-               val = int(numPlayers)
-            except ValueError:
-               print("Input must be a positive integer!")
-               isInt = False
-
-            if isInt:
-                self.setPlayers(numPlayers)
+                if isInt:
+                    self.setPlayers(numPlayers)
+                    break
             # else:
             #     self.setPlayers(1)
             #
@@ -281,8 +284,43 @@ class Player:
         print("Current toep: " + str(self.game.toep))
         print("Current suit: " + str(self.game.suit))
 
+    def reviewRules(self):
+        self.game.displayRules()
+
     def mulligan(self):
-        print("mulligan!")
+        isValid = True
+
+        for c in self.cards:
+            if c.value == '7' or c.value == '8' or c.value == '9' or c.value == '10':
+                isValid = False
+            self.game.deck.cards.append(c)
+
+        print("You have swapped your four cards for four new ones.")
+        self.setCards(self.game.deck.deal())
+        self.displayCards()
+
+        for p in self.game.players:
+            if p.name != self.name:
+                print("A challenger approaches...\n")
+                print("Hello, " + p.name)
+                callout = input(self.name + " has chosen to mulligan. Do you challenge their choice? (y/n)\n")
+                callout.lower()
+                if callout == 'y':
+                    caller = p
+                    break
+
+        if callout == 'y':
+            if isValid == True:
+                print(caller.name + " has challenged " + self.name + "'s mulligan, and is wrong. Thus they lose a life.\n")
+                caller.lives = caller.lives - 1
+                print("Back to " + self.name + " !")
+            else:
+                print(caller.name + " has challenged " + self.name + "'s mulligan, and is correct. Thus " + self.name + " loses a life.\n")
+                self.lives = self.lives -1
+                print("Back to " + self.name + " !")
+        else:
+            print("No challenges. Phew\n")
+            print("Back to " + self.name + " !")
 
     def toep(self):
         self.game.increaseToep()
@@ -354,7 +392,7 @@ class Player:
                         raw_card = [x.strip() for x in choice.split(',')]
 
         self.cards.remove(card)
-        print("You have removed " + str(card.value) + ", " + str(card.color) + " from your deck.")
+        print("You have removed " + str(card.value) + ", " + str(card.color) + " from your hand.")
         self.game.currentStack.append((self.name, card))
 
 #TODO: only one that sets game suit is the first player
