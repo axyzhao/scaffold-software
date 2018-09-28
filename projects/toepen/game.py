@@ -112,6 +112,11 @@ class Game:
     #rules option
             elif (startChoice == 'r' or startChoice == 'R'):
                 self.displayRules()
+
+                while True:
+                    go = input("Press any key to return to the main menu\n")
+                    if go:
+                        break
                 self.displayStartScreen()
                 startChoice = input("OPTIONS: start (S), rules (R), quit (Q): ")
                 print("**************************************************************************************")
