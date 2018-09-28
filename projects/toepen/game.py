@@ -120,24 +120,40 @@ class Game:
         for p in self.players:
             p.setCards(self.deck.deal())
 
-        self.playRound(0)
+        self.playTrick()
 
         print("")
 
     def playTrick(self):
         startingPlayer = self.playRound(0)
-        while startingPlayer >= 0:
-            self.playRound(startingPlayer)
+        result = 1
+
+        while result != None:
+            result = self.playRound(startingPlayer)
+
+        if startingPlayer == -1:
+            return
+        elif startingPlayer == -2:
+            return
+
 
     def playRound(self, startingPlayer):
+        counter = 0
         for i in range(startingPlayer, startingPlayer + len(self.players)):
             p = self.players[i % len(self.players)]
 
             if (p.inGame):
-                self.takeTurn(self.players[i % len(self.players)])
+                res = self.takeTurn(self.players[i % len(self.players)])
+                if res == -1:
+                    winner = p
+                    counter = counter + 1
+
+        if counter == 4:
+            print("Round over. The winner is " + winner.name)
+            return -2
 
         maxVal = -1 * pow(10, 10)
-        maxName = 0
+        maxName = ""
         for tup in self.currentStack:
             tupVal = tup[1].value
             ranking = self.deck.values.index(tupVal)
@@ -145,9 +161,11 @@ class Game:
                 maxVal = ranking
                 maxName = tup[0]
 
-        print("The winner is..." + maxName + "! They get to start the next round off.")
-        print("Round over. Putting discarded cards back into deck...\n")
+        print("The winner of the trick is " + maxName + "! They get to start the next trick off.")
+        print("Putting discarded cards back into deck...\n")
         self.deck.reshuffle()
+
+        raw_name = maxName.split(' ')
 
         #TODO: need to return max player
         # Everyone else has lost " + str(self.toep) + " lives.")
@@ -157,7 +175,18 @@ class Game:
                 p.lives = p.lives - self.toep
             if p.lives <= 0:
                 print(p.name + " has lost! The game is over.")
+
+                maxLives = -1000
+                for p in self.players:
+                    if maxLives != max(maxLives, p.lives):
+                        maxLives = p.lives
+                        champ = p
+
+                print(champ.name + " is the ultimate winner, with " + str(champ.lives) + " lives.")
+
                 return -1
+
+        return int(raw_name[1])
 
     def takeTurn(self, player):
         #check if anyone has 0 lives
@@ -211,8 +240,7 @@ class Game:
                 print("\n")
             elif action == 'p' or action == 'P':
                 print("\n")
-                player.playCard(self.suit)
-                return
+                return player.playCard(self.suit)
             else:
                 print("You selected an invalid option.\n")
                 action = input("What do you want to do?\nMulligan (M), fold (F), toep (T), check game stats (C), play a card (P)\n")
@@ -394,6 +422,9 @@ class Player:
         self.cards.remove(card)
         print("You have removed " + str(card.value) + ", " + str(card.color) + " from your hand.")
         self.game.currentStack.append((self.name, card))
+
+        if len(self.cards) == 0:
+            return -1
 
 #TODO: only one that sets game suit is the first player
         self.game.suit = raw_card[1]

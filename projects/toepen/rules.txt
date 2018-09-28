@@ -1,18 +1,24 @@
-Players and cards\n
-Toepen is a fast trick-taking game for three to eight players. It is played with a 32-card pack, with the cards in each suit ranking 10 (highest), 9, 8, 7, A, K, Q, J (lowest). The basic object of each hand is to win the last trick.\n
+"Players and cards\n"
+"Toepen is a fast trick-taking game for three to eight players. It is played with a 32-card pack, with the cards in each suit ranking 10 (highest), 9, 8, 7, A, K, Q, J (lowest).\n
+The basic object of each hand is to win the last trick.\n
 
 Deal\n
 The cards are dealt clockwise so that each player receives four cards.\n
 
-After the deal, the undealt portion of the pack is left face-down in the middle of the table. Then any player whose hand consists entirely of As, Ks, Qs, and Js may discard her hand face downward and deal herself a new one. Indeed, any player may discard her hand face downward and deal herself a new one, but there is a risk. When a hand has been discarded in this way, it may be challenged by any other player, by turning it face upwards: if it is found to contain a 10,9,8 or 7 the discarder loses one life (but keeps her new hand) while if it really consists entirely of As,Ks,Qs and Js the challenger loses one life. Once all the cards in the pack have been dealt, it is impossible for any more hands to be dealt.\n
+After the deal, the undealt portion of the pack is left face-down in the middle of the table.\n 
+Then any player whose hand consists entirely of As, Ks, Qs, and Js may discard her hand face downward and deal herself a new one (called a mulligan).\n
+Indeed, any player may discard her hand face downward and deal herself a new one, but there is a risk. \n
+When a hand has been discarded in this way, it may be challenged by any other player, by turning it face upwards:\n
+if it is found to contain a 10,9,8 or 7 the discarder loses one life (but keeps her new hand) while if it really consists \n
+entirely of As,Ks,Qs and Js the challenger loses one life.\n
 
 Play of the cards\n
 The player on dealer's left leads to the first trick. Players must follow suit if possible, otherwise they may play any card. A trick is won by the highest card of the suit led. The winner of a trick leads to the next trick.\n
 
-The winner of the fourth and last trick will deal the next hand. Each of the other players loses a life or lives as described below.\n
-
 Knocking\n
-At any time during a hand, once all the players have had an opportunity to pick up their cards, a player may knock by rapping the table sharply. This increases the value of the hand by one life. When a player knocks, the other players may stay in, risking losing this extra life; or may fold, losing the current stake and taking no further part in the hand.\n
+At any time during a hand, once all the players have had an opportunity to pick up their cards, a player may increase the penalty by calling a "toep". \n
+This increases the value of the hand by one life. When a player knocks, the other players may stay in, risking losing this extra life; or may fold, losing \n
+the current stake and taking no further part in the hand.\n
 
 The last player to knock may not knock again on the same hand, until someone else has knocked.\n
 
