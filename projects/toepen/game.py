@@ -53,7 +53,7 @@ class Game:
         "Indeed, any player may discard her hand face downward and deal herself a new one, but there is a risk. \n"
         "When a hand has been discarded in this way, it may be challenged by any other player, by turning it face upwards:\n"
         "if it is found to contain a 10,9,8 or 7 the discarder loses one life (but keeps her new hand) while if it really consists \n"
-        "entirely of As,Ks,Qs and Js the challenger loses one life.\n\n"
+        "entirely of As, Ks, Qs and Js the challenger loses one life.\n\n"
 
         "Play of the cards\n"
         "The player on dealer's left leads to the first trick. Players must follow suit if possible, otherwise they may play any card.\n"
@@ -66,16 +66,10 @@ class Game:
 
         "The last player to knock may not knock again on the same hand, until someone else has knocked.\n"
 
-        "Those who stay in to the end of the hand lose one more life than the total number of knocks. So for example if there are no knocks, everyone except\n"
-        "the winner of the last trick loses one life; if there was one knock everyone who stayed in, except for the winner of the last trick, loses two lives, and so on.\n"
-
         "Those who fold on the first knock immediately lose one life; those who fold on the second knock lose two lives and so on - that is, by folding you\n"
         "lose the same amount you would have lost if the game had gone to the end with no further knocks and you lost the last trick.\n"
 
         "If a player knocks and everyone else folds, the player left in wins that hand (losing no life) and deals the next.\n"
-
-        "If the winner of a trick folds after playing the winning card to the trick, but before the following trick has begun, the turn to lead to\n"
-        "the next trick passes to the next player to the left who has not yet folded.\n"
 
         "A player may not knock and fold on her own knock.\n")
 
@@ -164,10 +158,11 @@ class Game:
         result = 0
 
         while result != -1:
-            self.currentStack = None
+            self.currentStack = []
             result = self.playTrick()
             for p in self.players:
                 p.setCards(self.deck.deal())
+                p.inGame = True
         print("")
 
     def playTrick(self):
@@ -179,20 +174,18 @@ class Game:
 
         return startingPlayer
 
-    def playRound(self, startingPlayer):
+    def checkOnePlayer(self):
         counter = 0
         inGame = 0
         for p in self.players:
             if p.inGame == True:
                 onePlayer = p
                 counter = counter + 1
-
         if counter == 1:
-            print(onePlayer.name + "wins by default since everyone else has folded!")
-            return self.players.index(onePlayer)
+            return True
+        return False
 
-        if counter == 0:
-            return -3
+    def playRound(self, startingPlayer):
 
         for i in range(startingPlayer, startingPlayer + len(self.players)):
             p = self.players[i % len(self.players)]
@@ -212,7 +205,7 @@ class Game:
 
         maxName = self.players[0].name 
 
-        if self.currentStack != None:
+        if len(self.currentStack) > 0:
             maxVal = -1 * pow(10, 10)
             #store max card value from cards in the current pile
             for tup in self.currentStack:
@@ -262,6 +255,10 @@ class Game:
         print("*********************************************************************************************************")
         print("Hey, " + player.name + "! It's your turn!\n")
         player.displayCards()
+        if self.checkOnePlayer():
+            print(player.name + " wins by default since everyone else has folded!")
+            self.leadPlayer = player
+            return -1
 
         #what would you like to do? fold, toep, checkscore, play which cards?
         action = input("What do you want to do?\nMulligan (M), fold (F), toep (T), check game stats (C), play a card (P), review rules (R)\n")
@@ -429,8 +426,7 @@ class Player:
             print("Back to " + self.name + " !")
 
     def toep(self):
-        self.game.increaseToep()
-        print("You have increased the toep to " + str(self.game.toep) + ".")
+        print("You have increased the toep to " + str(self.game.toep + 1) + ".")
 
         for p in self.game.players:
             if p.name != self.name and p.inGame:
@@ -442,12 +438,12 @@ class Player:
                         break
 
                 print("Hello, " + p.name)
-                call = input(self.name + " has increased the toep to " + str(self.game.toep) + ". Do you call, or fold? (C/F)\n")
+                call = input(self.name + " has increased the toep to " + str(self.game.toep + 1) + ". Do you call, or fold? (C/F)\n")
                 call.lower()
                 if call == 'f':
                     p.fold()
-                    break
 
+        self.game.increaseToep()
         print("Now, returning to " + self.name + "...\n")
 
 
